@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Adham & Hend — Engagement Celebration</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Cinzel:wght@400;500;600&family=EB+Garamond:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --gold: #C9A96E;
+  --gold-lt: #E8D5A3;
+  --gold-pale: #F5EDD8;
+  --gold-dk: #8B6835;
+  --rose: #E8C4C0;
+  --rose-dk: #C4807A;
+  --navy: #0B1724;
+  --navy2: #132030;
+  --navy3: #1A2D42;
+  --cream: #FAF6EE;
+  --cream2: #F2EAD8;
+  --text: #2C1A10;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--navy);
+  color: var(--cream);
+  font-family: 'EB Garamond', Georgia, serif;
+  overflow-x: hidden;
+  cursor: default;
+}
+
+/* ─── CANVAS ─── */
+canvas#particles {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─── HERO ─── */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 4rem 2rem;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(201,169,110,0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 40% at 80% 90%, rgba(201,169,110,0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 50% at 20% 80%, rgba(232,196,192,0.06) 0%, transparent 60%);
+}
+
+.hero-veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom,
+    transparent 0%,
+    rgba(11,23,36,0.3) 60%,
+    rgba(11,23,36,0.85) 100%);
+}
+
+/* SVG Nile & Yacht */
+.nile-scene {
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.moon-wrap {
+  position: absolute;
+  top: 8%; right: 12%;
+}
+
+.moon {
+  width: 80px; height: 80px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 38%, #FFFBE8, #F5D978 45%, #C9A238 75%, rgba(180,130,20,0.3));
+  box-shadow:
+    0 0 0 8px rgba(245,217,120,0.08),
+    0 0 0 20px rgba(245,217,120,0.05),
+    0 0 60px 20px rgba(245,200,80,0.18),
+    0 0 120px 50px rgba(245,200,80,0.08);
+  animation: moonpulse 5s ease-in-out infinite;
+}
+
+@keyframes moonpulse {
+  0%,100% { box-shadow: 0 0 0 8px rgba(245,217,120,0.08), 0 0 0 20px rgba(245,217,120,0.05), 0 0 60px 20px rgba(245,200,80,0.18), 0 0 120px 50px rgba(245,200,80,0.08); }
+  50% { box-shadow: 0 0 0 12px rgba(245,217,120,0.12), 0 0 0 30px rgba(245,217,120,0.06), 0 0 80px 30px rgba(245,200,80,0.25), 0 0 160px 70px rgba(245,200,80,0.1); }
+}
+
+/* Petals */
+.petals-container {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 2;
+  overflow: hidden;
+}
+
+.petal {
+  position: absolute;
+  top: -30px;
+  width: 12px; height: 16px;
+  border-radius: 50% 0 50% 0;
+  opacity: 0;
+  animation: petalfall linear infinite;
+}
+
+@keyframes petalfall {
+  0% { transform: translateY(-20px) rotate(0deg) translateX(0); opacity: 0; }
+  10% { opacity: 0.7; }
+  90% { opacity: 0.4; }
+  100% { transform: translateY(110vh) rotate(720deg) translateX(60px); opacity: 0; }
+}
+
+/* ─── CONTENT ─── */
+.hero-content {
+  position: relative;
+  z-index: 10;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.eyebrow {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(9px, 1.5vw, 11px);
+  letter-spacing: 6px;
+  color: var(--gold);
+  text-transform: uppercase;
+  opacity: 0;
+  animation: rise 1.2s ease forwards 0.3s;
+  margin-bottom: 1.6rem;
+}
+
+.names-block {
+  opacity: 0;
+  animation: rise 1.4s ease forwards 0.6s;
+}
+
+.name-display {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(68px, 13vw, 120px);
+  font-weight: 300;
+  line-height: 0.88;
+  color: var(--cream);
+  letter-spacing: -2px;
+}
+
+.name-display .amp {
+  font-style: italic;
+  color: var(--gold);
+  font-size: 0.55em;
+  line-height: 1;
+  display: block;
+  letter-spacing: 0;
+  margin: 0.15em 0;
+}
+
+.subtitle-tag {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(18px, 3vw, 24px);
+  font-weight: 300;
+  color: var(--gold-lt);
+  opacity: 0;
+  animation: rise 1.4s ease forwards 1.0s;
+  margin-top: 1.4rem;
+  letter-spacing: 1px;
+}
+
+.scroll-hint {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  animation: rise 1s ease forwards 2s;
+}
+
+.scroll-hint span {
+  font-family: 'Cinzel', serif;
+  font-size: 8px;
+  letter-spacing: 4px;
+  color: rgba(201,169,110,0.5);
+  text-transform: uppercase;
+}
+
+.scroll-arrow {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, rgba(201,169,110,0.5), transparent);
+  animation: scrollpulse 2s ease-in-out infinite;
+}
+@keyframes scrollpulse { 0%,100%{transform:scaleY(1);opacity:0.5} 50%{transform:scaleY(1.3);opacity:1} }
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── DIVIDER ─── */
+.ornamental-divider {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  max-width: 400px;
+  margin: 2rem auto;
+}
+.div-line { flex: 1; height: 0.5px; background: linear-gradient(to right, transparent, var(--gold), transparent); }
+.div-center { display: flex; gap: 6px; align-items: center; }
+.div-diamond { width: 5px; height: 5px; background: var(--gold); transform: rotate(45deg); }
+.div-diamond.sm { width: 3px; height: 3px; opacity: 0.5; }
+
+/* ─── SECTIONS ─── */
+section {
+  position: relative;
+  z-index: 5;
+  padding: 5rem 2rem;
+}
+
+.section-inner {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.section-label {
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: 6px;
+  color: var(--gold);
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 3rem;
+  opacity: 0.8;
+}
+
+/* ─── DETAILS SECTION ─── */
+.details-section {
+  background: linear-gradient(to bottom, rgba(11,23,36,0) 0%, rgba(19,32,48,0.6) 50%, rgba(11,23,36,0) 100%);
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  background: rgba(201,169,110,0.12);
+  border: 0.5px solid rgba(201,169,110,0.2);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+.detail-card {
+  background: rgba(11,23,36,0.7);
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  transition: background 0.4s;
+  position: relative;
+  overflow: hidden;
+}
+
+.detail-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 100%, rgba(201,169,110,0.08), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+
+.detail-card:hover::before { opacity: 1; }
+.detail-card:hover { background: rgba(19,32,48,0.9); }
+
+.detail-icon {
+  font-size: 28px;
+  color: var(--gold);
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.detail-label {
+  font-family: 'Cinzel', serif;
+  font-size: 8px;
+  letter-spacing: 4px;
+  color: var(--gold);
+  opacity: 0.6;
+  text-transform: uppercase;
+  margin-bottom: 0.7rem;
+}
+
+.detail-val {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--cream);
+  line-height: 1.3;
+}
+
+.detail-sub {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 14px;
+  color: var(--gold-lt);
+  margin-top: 0.4rem;
+  opacity: 0.8;
+}
+
+.highlight-box {
+  background: rgba(201,169,110,0.06);
+  border: 0.5px solid rgba(201,169,110,0.2);
+  border-left: 2.5px solid var(--gold);
+  padding: 1.2rem 1.8rem;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border-radius: 0 2px 2px 0;
+}
+
+.highlight-box .hb-icon { font-size: 22px; color: var(--gold); flex-shrink: 0; }
+
+.highlight-box .hb-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  font-style: italic;
+  color: var(--cream2);
+}
+
+.highlight-box .hb-text strong {
+  color: var(--gold-lt);
+  font-style: normal;
+  font-weight: 500;
+}
+
+/* ─── STORY SECTION ─── */
+.story-section {
+  text-align: center;
+}
+
+.story-quote {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(22px, 4vw, 36px);
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.6;
+  color: var(--cream);
+  max-width: 640px;
+  margin: 0 auto 2rem;
+  position: relative;
+}
+
+.story-quote::before {
+  content: '\201C';
+  font-size: 6em;
+  color: rgba(201,169,110,0.15);
+  position: absolute;
+  top: -0.3em; left: -0.15em;
+  font-style: normal;
+  line-height: 1;
+}
+
+.story-body {
+  font-size: 18px;
+  line-height: 1.9;
+  color: rgba(250,246,238,0.65);
+  max-width: 540px;
+  margin: 0 auto;
+}
+
+/* ─── FLOATING HEARTS ─── */
+.hearts-row {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin: 2rem 0;
+}
+
+.heart-icon {
+  color: var(--rose-dk);
+  font-size: 14px;
+  animation: heartbeat 2s ease-in-out infinite;
+}
+
+.heart-icon:nth-child(2) { animation-delay: 0.3s; font-size: 20px; color: var(--rose); }
+.heart-icon:nth-child(3) { animation-delay: 0.6s; }
+
+@keyframes heartbeat {
+  0%,100%{ transform: scale(1); }
+  50%{ transform: scale(1.15); }
+}
+
+/* ─── MESSAGE SECTION ─── */
+.message-section {
+  background: linear-gradient(135deg, rgba(19,32,48,0.8) 0%, rgba(26,45,66,0.5) 100%);
+}
+
+.form-wrap {
+  background: rgba(255,255,255,0.025);
+  border: 0.5px solid rgba(201,169,110,0.2);
+  border-radius: 4px;
+  padding: 3rem;
+  backdrop-filter: blur(4px);
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.fg {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fg.full { grid-column: 1 / -1; }
+
+.fg label {
+  font-family: 'Cinzel', serif;
+  font-size: 8px;
+  letter-spacing: 4px;
+  color: var(--gold);
+  opacity: 0.75;
+  text-transform: uppercase;
+}
+
+.fg input, .fg textarea {
+  background: rgba(255,255,255,0.035);
+  border: 0.5px solid rgba(201,169,110,0.22);
+  border-radius: 2px;
+  padding: 13px 16px;
+  color: var(--cream);
+  font-family: 'EB Garamond', serif;
+  font-size: 17px;
+  outline: none;
+  transition: border-color 0.3s, background 0.3s;
+  width: 100%;
+  resize: none;
+}
+
+.fg input::placeholder, .fg textarea::placeholder {
+  color: rgba(250,246,238,0.2);
+  font-style: italic;
+}
+
+.fg input:focus, .fg textarea:focus {
+  border-color: rgba(201,169,110,0.55);
+  background: rgba(255,255,255,0.055);
+}
+
+.fg textarea { height: 120px; }
+
+.send-btn {
+  width: 100%;
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--navy);
+  background: linear-gradient(135deg, var(--gold-lt) 0%, var(--gold) 60%, var(--gold-dk) 100%);
+  border: none;
+  padding: 16px;
+  cursor: pointer;
+  border-radius: 2px;
+  margin-top: 6px;
+  transition: opacity 0.3s, transform 0.2s, box-shadow 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.send-btn::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 0; height: 0;
+  background: rgba(255,255,255,0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.4s, height 0.4s, opacity 0.4s;
+  opacity: 0;
+}
+
+.send-btn:active::after { width: 200px; height: 200px; opacity: 0; }
+.send-btn:hover { opacity: 0.9; box-shadow: 0 8px 40px rgba(201,169,110,0.25); transform: translateY(-1px); }
+.send-btn:active { transform: scale(0.99); }
+
+/* Messages */
+.messages-section { padding-bottom: 2rem; }
+
+.messages-heading {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 22px;
+  color: var(--gold-lt);
+  text-align: center;
+  margin-bottom: 1.8rem;
+}
+
+#msgList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 700px;
+  margin: 0 auto 2rem;
+}
+
+.msg-card {
+  background: rgba(255,255,255,0.025);
+  border: 0.5px solid rgba(201,169,110,0.15);
+  border-left: 2px solid rgba(201,169,110,0.45);
+  border-radius: 0 3px 3px 0;
+  padding: 1.2rem 1.5rem;
+  animation: cardIn 0.5s cubic-bezier(0.2, 0.8, 0.3, 1) forwards;
+  opacity: 0;
+}
+
+@keyframes cardIn {
+  from { opacity: 0; transform: translateX(-12px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.msg-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.msg-name {
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+
+.msg-relation {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 13px;
+  color: rgba(201,169,110,0.55);
+}
+
+.msg-text {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 17px;
+  color: rgba(250,246,238,0.8);
+  line-height: 1.6;
+}
+
+/* Download */
+#dlWrap {
+  text-align: center;
+  display: none;
+  margin-top: 1.5rem;
+}
+
+.dl-btn {
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: 4px;
+  color: var(--gold);
+  background: transparent;
+  border: 0.5px solid rgba(201,169,110,0.35);
+  padding: 12px 32px;
+  cursor: pointer;
+  text-transform: uppercase;
+  border-radius: 2px;
+  transition: all 0.3s;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dl-btn:hover {
+  background: rgba(201,169,110,0.08);
+  border-color: rgba(201,169,110,0.65);
+  box-shadow: 0 0 20px rgba(201,169,110,0.1);
+}
+
+/* Toast */
+#toast {
+  position: fixed;
+  bottom: 30px; left: 50%; transform: translateX(-50%) translateY(8px);
+  background: rgba(201,169,110,0.95);
+  color: var(--navy);
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: 3px;
+  padding: 14px 32px;
+  border-radius: 2px;
+  z-index: 999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s, transform 0.35s;
+  white-space: nowrap;
+}
+
+#toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ─── FOOTER ─── */
+footer {
+  position: relative;
+  z-index: 5;
+  text-align: center;
+  padding: 3rem 2rem 4rem;
+  border-top: 0.5px solid rgba(201,169,110,0.1);
+}
+
+.footer-names {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 32px;
+  color: var(--gold-lt);
+  margin-bottom: 0.5rem;
+}
+
+.footer-note {
+  font-family: 'EB Garamond', serif;
+  font-size: 14px;
+  color: rgba(250,246,238,0.3);
+  letter-spacing: 1px;
+}
+
+/* ─── REVEAL ANIMATIONS ─── */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.9s ease, transform 0.9s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 640px) {
+  .details-grid { grid-template-columns: 1fr; gap: 1px; }
+  .form-grid { grid-template-columns: 1fr; }
+  .form-wrap { padding: 2rem 1.5rem; }
+  .moon-wrap { top: 5%; right: 5%; }
+  .moon { width: 55px; height: 55px; }
+  .hero { padding: 6rem 1.5rem 3rem; }
+}
+
+/* ─── SELECTION ─── */
+::selection { background: rgba(201,169,110,0.3); color: var(--cream); }
+</style>
+</head>
+<body>
+
+<!-- Particle canvas -->
+<canvas id="particles"></canvas>
+
+<!-- Falling petals -->
+<div class="petals-container" id="petals"></div>
+
+<!-- Toast -->
+<div id="toast"></div>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-veil"></div>
+
+  <!-- Moon -->
+  <div class="moon-wrap">
+    <div class="moon"></div>
+  </div>
+
+  <!-- Nile scene SVG -->
+  <div class="nile-scene">
+    <svg width="100%" viewBox="0 0 1440 280" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs>
+        <linearGradient id="waterGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#0E2535" stop-opacity="0.9"/>
+          <stop offset="100%" stop-color="#071420" stop-opacity="1"/>
+        </linearGradient>
+        <linearGradient id="reflGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#C9A96E" stop-opacity="0.5"/>
+          <stop offset="100%" stop-color="#C9A96E" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+
+      <!-- Water base -->
+      <rect x="0" y="130" width="1440" height="150" fill="url(#waterGrad)"/>
+
+      <!-- Gentle wave paths -->
+      <path d="M0 155 Q180 145 360 158 Q540 170 720 155 Q900 140 1080 155 Q1260 170 1440 155 L1440 280 L0 280 Z" fill="rgba(14,37,53,0.95)"/>
+      <path d="M0 168 Q200 158 400 170 Q600 182 800 168 Q1000 154 1200 168 Q1350 178 1440 168" fill="none" stroke="rgba(201,169,110,0.07)" stroke-width="1"/>
+      <path d="M0 180 Q240 170 480 182 Q720 194 960 180 Q1200 166 1440 180" fill="none" stroke="rgba(201,169,110,0.05)" stroke-width="1"/>
+
+      <!-- Moon reflection -->
+      <ellipse cx="1130" cy="160" rx="6" ry="80" fill="url(#reflGrad)" opacity="0.6">
+        <animateTransform attributeName="transform" type="scale" values="1,1;1.5,1;1,1" dur="3s" repeatCount="indefinite" additive="sum"/>
+      </ellipse>
+      <ellipse cx="1130" cy="165" rx="3" ry="40" fill="rgba(245,217,120,0.35)" opacity="0.7">
+        <animateTransform attributeName="transform" type="translate" values="0,0;8,0;-6,0;0,0" dur="4s" repeatCount="indefinite" additive="sum"/>
+      </ellipse>
+
+      <!-- Yacht hull -->
+      <path d="M580 120 Q720 95 860 120 Q840 135 600 135 Z" fill="rgba(201,169,110,0.14)" stroke="rgba(201,169,110,0.4)" stroke-width="0.8"/>
+
+      <!-- Yacht deck details -->
+      <rect x="640" y="115" width="160" height="6" rx="1" fill="rgba(201,169,110,0.1)" stroke="rgba(201,169,110,0.3)" stroke-width="0.5"/>
+      <rect x="680" y="108" width="80" height="8" rx="1" fill="rgba(201,169,110,0.08)" stroke="rgba(201,169,110,0.25)" stroke-width="0.5"/>
+
+      <!-- Mast -->
+      <line x1="720" y1="30" x2="720" y2="120" stroke="rgba(201,169,110,0.55)" stroke-width="1"/>
+
+      <!-- Main sail -->
+      <path d="M720 35 L790 112 L720 112 Z" fill="rgba(250,246,238,0.06)" stroke="rgba(201,169,110,0.35)" stroke-width="0.7"/>
+      <!-- Fore sail -->
+      <path d="M720 42 L658 108 L720 108 Z" fill="rgba(250,246,238,0.04)" stroke="rgba(201,169,110,0.25)" stroke-width="0.7"/>
+
+      <!-- Flag -->
+      <path d="M720 30 L740 36 L720 42 Z" fill="rgba(201,169,110,0.6)"/>
+
+      <!-- Yacht reflection in water -->
+      <path d="M620 140 Q720 150 820 140 Q800 158 640 155 Z" fill="rgba(201,169,110,0.05)" opacity="0.5">
+        <animateTransform attributeName="transform" type="translate" values="0,0;0,3;0,0" dur="3s" repeatCount="indefinite"/>
+      </path>
+
+      <!-- Lights on yacht -->
+      <circle cx="680" cy="118" r="2" fill="rgba(255,240,150,0.7)">
+        <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="760" cy="116" r="2" fill="rgba(255,240,150,0.7)">
+        <animate attributeName="opacity" values="1;0.6;1" dur="2.5s" repeatCount="indefinite"/>
+      </circle>
+    </svg>
+  </div>
+
+  <!-- Text content -->
+  <div class="hero-content">
+    <p class="eyebrow">You are joyfully invited to celebrate</p>
+
+    <div class="names-block">
+      <div class="name-display">
+        Adham
+        <span class="amp">&</span>
+        Hend
+      </div>
+    </div>
+
+    <p class="subtitle-tag">Engagement Celebration on the Nile</p>
+
+    <div class="ornamental-divider" style="opacity:0; animation: rise 1.2s ease forwards 1.3s;">
+      <div class="div-line"></div>
+      <div class="div-center">
+        <div class="div-diamond sm"></div>
+        <div class="div-diamond"></div>
+        <div class="div-diamond sm"></div>
+      </div>
+      <div class="div-line"></div>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<!-- ═══ STORY ═══ -->
+<section class="story-section">
+  <div class="section-inner">
+    <p class="section-label reveal">A Love Story</p>
+
+    <div class="hearts-row reveal">
+      <span class="heart-icon">♡</span>
+      <span class="heart-icon">♥</span>
+      <span class="heart-icon">♡</span>
+    </div>
+
+    <div class="story-quote reveal">
+      Two souls, one beautiful beginning
+    </div>
+
+    <div class="ornamental-divider reveal" style="margin: 1.8rem auto;">
+      <div class="div-line"></div>
+      <div class="div-center">
+        <div class="div-diamond sm"></div>
+        <div class="div-diamond"></div>
+        <div class="div-diamond sm"></div>
+      </div>
+      <div class="div-line"></div>
+    </div>
+
+    <p class="story-body reveal">
+      With hearts full of love and joy, the families of Adham and Hend invite you to share in the celebration of their engagement — an evening of warmth, laughter, and new beginnings, sailing together on the timeless waters of the Nile.
+    </p>
+  </div>
+</section>
+
+<!-- ═══ DETAILS ═══ -->
+<section class="details-section">
+  <div class="section-inner">
+    <p class="section-label reveal">Evening Details</p>
+
+    <div class="details-grid reveal">
+      <div class="detail-card">
+        <span class="detail-icon">◈</span>
+        <div class="detail-label">Date</div>
+        <div class="detail-val">Wednesday<br>10 June 2025</div>
+        <div class="detail-sub">Save the date</div>
+      </div>
+      <div class="detail-card">
+        <span class="detail-icon">◷</span>
+        <div class="detail-label">Time</div>
+        <div class="detail-val">6:00 — 9:00 pm</div>
+        <div class="detail-sub">Three hours of celebration</div>
+      </div>
+      <div class="detail-card">
+        <span class="detail-icon">⛵</span>
+        <div class="detail-label">Location</div>
+        <div class="detail-val">Nubia Yacht</div>
+        <div class="detail-sub">Giza Nile, Cairo</div>
+      </div>
+    </div>
+
+    <div class="highlight-box reveal">
+      <span class="hb-icon">⚓</span>
+      <div class="hb-text">
+        The yacht sets sail at <strong>7:00 pm sharp</strong> — please arrive early to enjoy the boarding and be part of the magical departure.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ MESSAGES ═══ -->
+<section class="message-section">
+  <div class="section-inner">
+    <p class="section-label reveal">Leave Your Wishes</p>
+
+    <div class="form-wrap reveal">
+      <div class="form-grid">
+        <div class="fg">
+          <label for="msg-name">Your name</label>
+          <input type="text" id="msg-name" placeholder="e.g. Sara Ahmed" maxlength="60">
+        </div>
+        <div class="fg">
+          <label for="msg-rel">Your relation</label>
+          <input type="text" id="msg-rel" placeholder="e.g. Friend, Family…" maxlength="40">
+        </div>
+      </div>
+      <div class="fg full" style="margin-bottom: 16px;">
+        <label for="msg-text">Your heartfelt message</label>
+        <textarea id="msg-text" placeholder="Write your warmest wishes for Adham & Hend…" maxlength="500"></textarea>
+      </div>
+      <button class="send-btn" onclick="submitMsg()">✦ &nbsp; Send Your Wishes &nbsp; ✦</button>
+    </div>
+
+    <!-- Owner lock -->
+    <div id="ownerLock" style="margin-top: 3.5rem; text-align:center;">
+      <div class="ornamental-divider" style="max-width:300px; margin: 0 auto 2rem;">
+        <div class="div-line"></div>
+        <div class="div-center">
+          <div class="div-diamond sm"></div>
+          <div class="div-diamond"></div>
+          <div class="div-diamond sm"></div>
+        </div>
+        <div class="div-line"></div>
+      </div>
+      <p style="font-family:'Cinzel',serif; font-size:9px; letter-spacing:5px; color:var(--gold); opacity:0.6; text-transform:uppercase; margin-bottom:1.4rem;">Owner Access</p>
+      <div style="display:flex; gap:10px; justify-content:center; align-items:center; flex-wrap:wrap;">
+        <div class="fg" style="max-width:260px; flex:1;">
+          <input type="password" id="ownerPass" placeholder="Enter your password…" onkeydown="if(event.key==='Enter') unlockOwner()" style="text-align:center; letter-spacing:3px;">
+        </div>
+        <button class="dl-btn" onclick="unlockOwner()" style="white-space:nowrap; padding:13px 24px;">✦ &nbsp; Enter</button>
+      </div>
+      <p id="passErr" style="font-family:'EB Garamond',serif; font-style:italic; font-size:14px; color:var(--rose-dk); margin-top:10px; opacity:0; transition:opacity 0.3s;">Incorrect password. Please try again.</p>
+    </div>
+
+    <!-- Messages list — owner only -->
+    <div id="msgSection" style="display:none; margin-top: 3rem;">
+      <div class="ornamental-divider" style="margin-bottom: 2rem;">
+        <div class="div-line"></div>
+        <div class="div-center">
+          <div class="div-diamond sm"></div>
+          <div class="div-diamond"></div>
+          <div class="div-diamond sm"></div>
+        </div>
+        <div class="div-line"></div>
+      </div>
+      <p class="messages-heading">Wishes from Loved Ones</p>
+      <div id="msgList"></div>
+      <div id="dlWrap" style="text-align:center; margin-top:1.5rem;">
+        <button class="dl-btn" onclick="downloadXlsx()">
+          ↓ &nbsp; Download All Wishes as Excel
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="ornamental-divider" style="margin-bottom: 2rem;">
+    <div class="div-line"></div>
+    <div class="div-center">
+      <div class="div-diamond sm"></div>
+      <div class="div-diamond"></div>
+      <div class="div-diamond sm"></div>
+    </div>
+    <div class="div-line"></div>
+  </div>
+  <div class="footer-names">Adham & Hend</div>
+  <p class="footer-note">10 June 2025 &nbsp;·&nbsp; Nubia Yacht, Giza Nile &nbsp;·&nbsp; With all our love</p>
+</footer>
+
+<script>
+/* ─── STARS / PARTICLES ─── */
+const canvas = document.getElementById('particles');
+const ctx = canvas.getContext('2d');
+let W, H, stars = [];
+
+function resize() {
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+
+function initStars() {
+  stars = [];
+  for (let i = 0; i < 160; i++) {
+    stars.push({
+      x: Math.random() * W,
+      y: Math.random() * H * 0.75,
+      r: Math.random() * 1.4 + 0.3,
+      op: Math.random() * 0.6 + 0.1,
+      speed: Math.random() * 0.015 + 0.005,
+      phase: Math.random() * Math.PI * 2
+    });
+  }
+}
+
+function drawStars(t) {
+  ctx.clearRect(0, 0, W, H);
+  stars.forEach(s => {
+    const opacity = s.op * (0.5 + 0.5 * Math.sin(t * s.speed + s.phase));
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(255, 248, 220, ${opacity})`;
+    ctx.fill();
+  });
+  requestAnimationFrame(t => drawStars(t));
+}
+
+resize();
+initStars();
+window.addEventListener('resize', () => { resize(); initStars(); });
+requestAnimationFrame(t => drawStars(t));
+
+/* ─── PETALS ─── */
+const petalColors = ['#E8C4C0','#F5D8D5','#EDD0CC','#F0E0DD','#DCA8A3'];
+const petalContainer = document.getElementById('petals');
+
+function createPetal() {
+  const p = document.createElement('div');
+  p.className = 'petal';
+  p.style.cssText = `
+    left: ${Math.random() * 100}%;
+    background: ${petalColors[Math.floor(Math.random()*petalColors.length)]};
+    width: ${8+Math.random()*8}px;
+    height: ${10+Math.random()*10}px;
+    border-radius: ${Math.random()>0.5?'50% 0 50% 0':'0 50% 0 50%'};
+    animation-duration: ${6+Math.random()*8}s;
+    animation-delay: ${Math.random()*3}s;
+    opacity: 0;
+  `;
+  petalContainer.appendChild(p);
+  setTimeout(() => p.remove(), 18000);
+}
+
+setInterval(createPetal, 600);
+
+/* ─── SCROLL REVEAL ─── */
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) e.target.classList.add('visible');
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+/* ─── MESSAGES ─── */
+const messages = [];
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+function esc(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function submitMsg() {
+  const name = document.getElementById('msg-name').value.trim();
+  const rel  = document.getElementById('msg-rel').value.trim();
+  const text = document.getElementById('msg-text').value.trim();
+
+  if (!name) { showToast('Please enter your name ✦'); return; }
+  if (!text) { showToast('Please write a message ✦'); return; }
+
+  const ts = new Date().toLocaleString('en-EG', {
+    day:'2-digit', month:'short', year:'numeric',
+    hour:'2-digit', minute:'2-digit'
+  });
+
+  messages.push({ name, relation: rel||'—', message: text, timestamp: ts });
+
+  const list = document.getElementById('msgList');
+  const card = document.createElement('div');
+  card.className = 'msg-card';
+  card.innerHTML = `
+    <div class="msg-meta">
+      <span class="msg-name">${esc(name)}</span>
+      ${rel ? `<span class="msg-relation">${esc(rel)}</span>` : ''}
+    </div>
+    <div class="msg-text">${esc(text)}</div>
+  `;
+  list.appendChild(card);
+
+  document.getElementById('msg-name').value = '';
+  document.getElementById('msg-rel').value = '';
+  document.getElementById('msg-text').value = '';
+
+  if (ownerUnlocked) {
+    document.getElementById('msgSection').style.display = 'block';
+    card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  showToast('Your wishes have been sent ✦');
+}
+
+/* ─── OWNER UNLOCK ─── */
+let ownerUnlocked = false;
+
+function unlockOwner() {
+  const val = document.getElementById('ownerPass').value;
+  const err = document.getElementById('passErr');
+  if (val === 'Aesars32') {
+    ownerUnlocked = true;
+    document.getElementById('ownerLock').style.display = 'none';
+    const sec = document.getElementById('msgSection');
+    sec.style.display = 'block';
+    if (messages.length === 0) {
+      document.getElementById('msgList').innerHTML = '<p style=\'font-family:\'EB Garamond\',serif;font-style:italic;font-size:17px;color:rgba(250,246,238,0.4);text-align:center;padding:1.5rem 0;\'>No wishes have been submitted yet.</p>';
+    }
+    sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    showToast('Welcome, owner ✦');
+    err.style.opacity = '0';
+  } else {
+    err.style.opacity = '1';
+    document.getElementById('ownerPass').value = '';
+    setTimeout(() => { err.style.opacity = '0'; }, 3000);
+  }
+}
+
+/* ─── EXCEL DOWNLOAD ─── */
+function downloadXlsx() {
+  if (!messages.length) return;
+
+  const wb = XLSX.utils.book_new();
+
+  const rows = [
+    ['Adham & Hend — Engagement Celebration Wishes'],
+    ['Nubia Yacht, Giza Nile  ·  Wednesday, 10 June 2025'],
+    [''],
+    ['Guest Name', 'Relation', 'Message', 'Submitted At'],
+    ...messages.map(m => [m.name, m.relation, m.message, m.timestamp])
+  ];
+
+  const ws = XLSX.utils.aoa_to_sheet(rows);
+  ws['!cols'] = [{ wch: 24 }, { wch: 18 }, { wch: 60 }, { wch: 24 }];
+  ws['!merges'] = [{ s:{r:0,c:0}, e:{r:0,c:3} }, { s:{r:1,c:0}, e:{r:1,c:3} }];
+
+  if (ws['A1']) ws['A1'].s = { font: { bold: true, sz: 14 } };
+  if (ws['A4']) ws['A4'].s = { font: { bold: true } };
+
+  XLSX.utils.book_append_sheet(wb, ws, 'Wishes');
+  XLSX.writeFile(wb, 'Adham_Hend_Engagement_Wishes.xlsx');
+  showToast('Downloaded successfully ✦');
+}
+
+/* ─── SMOOTH anchor offset ─── */
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior:'smooth' });
+  });
+});
+</script>
+</body>
+</html>
